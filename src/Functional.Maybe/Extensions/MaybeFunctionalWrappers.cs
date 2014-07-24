@@ -1,8 +1,9 @@
-﻿using System;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Modifying passed functions making them return Maybe instead of plain type
 	/// </summary>
 	public static class MaybeFunctionalWrappers

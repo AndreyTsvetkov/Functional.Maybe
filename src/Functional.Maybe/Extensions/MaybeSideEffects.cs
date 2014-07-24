@@ -1,8 +1,9 @@
-﻿using System;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Applying side effects into the Maybe call chain
 	/// </summary>
 	public static class MaybeSideEffects

@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Fluent exts for converting the values of Maybe to/from lists, nullables; casting and upshifting
 	/// </summary>
 	public static class MaybeConvertions

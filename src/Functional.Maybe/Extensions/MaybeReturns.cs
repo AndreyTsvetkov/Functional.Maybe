@@ -1,8 +1,9 @@
-﻿using System;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Fluent exts for unwrapping values from the Maybe
 	/// </summary>
 	public static class MaybeReturns

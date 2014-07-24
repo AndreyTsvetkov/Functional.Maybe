@@ -1,8 +1,9 @@
-﻿using System;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Ternary logic with Maybe&lt;bool&gt; and combining T and bool to a Maybe value
 	/// </summary>
 	public static class MaybeBoolean
