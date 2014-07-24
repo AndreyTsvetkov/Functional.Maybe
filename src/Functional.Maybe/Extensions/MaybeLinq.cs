@@ -1,8 +1,9 @@
-﻿using System;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Providing necessary methods to enable linq syntax with Maybes themselves
 	/// </summary>
 	public static class MaybeLinq

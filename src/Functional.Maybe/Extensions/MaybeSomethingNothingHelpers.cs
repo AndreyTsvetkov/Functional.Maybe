@@ -1,6 +1,8 @@
-﻿namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// IsSomething, IsNothing and shorthands to create typed Nothing of correct type
 	/// </summary>
 	public static class MaybeSomethingNothingHelpers

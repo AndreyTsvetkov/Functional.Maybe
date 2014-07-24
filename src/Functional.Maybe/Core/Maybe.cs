@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Core
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
 	/// The option type; explicitly represents nothing-or-thing nature of a value. 
 	/// Supports some of the LINQ operators, such as SelectMany, Where and can be used 
 	/// with linq syntax: 

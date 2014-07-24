@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Integration with Enumerable's LINQ (such as .FirstMaybe()) and all kinds of cross-use of IEnumerables and Maybes
 	/// </summary>
 	public static class MaybeEnumerable

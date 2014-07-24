@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Functional.Maybe
+﻿namespace Functional.Maybe.Extensions
 {
-	public static class MaybeDictionary
+    using System.Collections.Generic;
+    using Functional.Maybe.Core;
+
+    public static class MaybeDictionary
 	{
 		/// <summary>
 		/// Tries to get value from Dictionary safely

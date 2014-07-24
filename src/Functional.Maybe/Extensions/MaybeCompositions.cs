@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 
-namespace Functional.Maybe
+namespace Functional.Maybe.Extensions
 {
-	/// <summary>
+    using System;
+    using System.Collections.Generic;
+    using Functional.Maybe.Core;
+
+    /// <summary>
 	/// Composing two maybe value to one, such operations, as one.Or(another)
 	/// </summary>
 	public static class MaybeCompositions
