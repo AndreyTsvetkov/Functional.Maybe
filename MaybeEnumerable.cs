@@ -19,7 +19,11 @@ namespace Functional.Maybe
 		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items)
 		{
 			Contract.Requires(items != null);
-			return FirstMaybe(items, arg => true);
+
+			using (var enumerator = items.GetEnumerator())
+			{
+				return enumerator.MoveNext().Then(enumerator.Current);
+			}
 		}
 
 		/// <summary>
@@ -33,9 +37,7 @@ namespace Functional.Maybe
 		{
 			Contract.Requires(items != null);
 			Contract.Requires(predicate != null);
-
-			var filtered = items.Where(predicate).ToArray();
-			return filtered.Any().Then(filtered.First);
+			return FirstMaybe(items.Where(predicate));
 		}
 
 		/// <summary>
@@ -47,7 +49,9 @@ namespace Functional.Maybe
 		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items)
 		{
 			Contract.Requires(items != null);
-			return SingleMaybe(items, arg => true);
+
+			var first2 = items.Take(2).ToList();
+			return (first2.Count > 0).Then(first2.Single());
 		}
 
 		/// <summary>
@@ -61,9 +65,7 @@ namespace Functional.Maybe
 		{
 			Contract.Requires(items != null);
 			Contract.Requires(predicate != null);
-
-			var all = items.ToArray();
-			return (all.Count(predicate) == 1).Then(() => all.Single(predicate));
+			return SingleMaybe(items.Where(predicate));
 		}
 
 		/// <summary>
@@ -75,7 +77,19 @@ namespace Functional.Maybe
 		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items)
 		{
 			Contract.Requires(items != null);
-			return LastMaybe(items, arg => true);
+
+			using (var enumerator = items.GetEnumerator())
+			{
+				if (!enumerator.MoveNext()) return Maybe<T>.Nothing;
+
+				T item;
+				do
+				{
+					item = enumerator.Current;
+				} while (enumerator.MoveNext());
+
+				return item.ToMaybe();
+			}
 		}
 
 		/// <summary>
@@ -89,9 +103,7 @@ namespace Functional.Maybe
 		{
 			Contract.Requires(items != null);
 			Contract.Requires(predicate != null);
-			
-			var filtered = items.Where(predicate).ToArray();
-			return filtered.Any().Then(filtered.Last);
+			return LastMaybe(items.Where(predicate));
 		}
 
 		/// <summary>
