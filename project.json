@@ -1,0 +1,21 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.1",
+    "System.Diagnostics.Contracts": "4.3.0",
+    "System.Runtime.Serialization.Primitives": "4.3.0"
+  },
+  "frameworks": {
+    "netstandard1.0": {}
+  },
+  "packOptions": {
+    "projectUrl": "https://github.com/AndreyTsvetkov/Functional.Maybe",
+	"licenseUrl": "https://raw.githubusercontent.com/AndreyTsvetkov/Functional.Maybe/master/License.txt",
+	"iconUrl": "http://findicons.com/files/icons/1462/candy_hearts/32/maybe.png",
+	"summary": "Option types for C# with LINQ support and rich fluent syntax for many popular uses",
+	"tags": ["option", "maybe", "linq", "fluent", "functional"],
+	"releaseNotes": "Added SelectMaybe alias for SelectMany.",
+	"owners": ["Andrey Tsvetkov"]
+  }
+}
