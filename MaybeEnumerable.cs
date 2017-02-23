@@ -22,23 +22,27 @@ namespace Functional.Maybe
 			return FirstMaybe(items, arg => true);
 		}
 
-		/// <summary>
-		/// First item matching <paramref name="predicate"/> or Nothing
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="items"></param>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate)
-		{
-			Contract.Requires(items != null);
-			Contract.Requires(predicate != null);
+        /// <summary>
+        /// First item matching <paramref name="predicate"/> or Nothing
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+	    {
+	        Contract.Requires(items != null);
+	        Contract.Requires(predicate != null);
 
-			var filtered = items.Where(predicate).ToArray();
-			return filtered.Any().Then(filtered.First);
-		}
+	        foreach(var item in items) {
+	            if(predicate(item)) {
+	                return item.ToMaybe();
+	            }
+	        }
+	        return Maybe<T>.Nothing;
+	    }
 
-		/// <summary>
+	    /// <summary>
 		/// Single item or Nothing
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
@@ -62,9 +66,22 @@ namespace Functional.Maybe
 			Contract.Requires(items != null);
 			Contract.Requires(predicate != null);
 
-			var all = items.ToArray();
-			return (all.Count(predicate) == 1).Then(() => all.Single(predicate));
-		}
+            var result = default(T);
+            var count = 0;
+            foreach(var element in items) {
+                if(predicate(element)) {
+                    result = element;
+                    count++;
+                    if(count > 1)
+                        return Maybe<T>.Nothing;
+                }
+            }
+            switch(count) {
+                case 0: return Maybe<T>.Nothing;
+                case 1: return result.ToMaybe();
+            }
+            return Maybe<T>.Nothing;
+        }
 
 		/// <summary>
 		/// Last item or Nothing
@@ -78,23 +95,32 @@ namespace Functional.Maybe
 			return LastMaybe(items, arg => true);
 		}
 
-		/// <summary>
-		/// Last item matching <paramref name="predicate"/> or Nothing
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="items"></param>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate)
-		{
-			Contract.Requires(items != null);
-			Contract.Requires(predicate != null);
-			
-			var filtered = items.Where(predicate).ToArray();
-			return filtered.Any().Then(filtered.Last);
-		}
+	    /// <summary>
+	    /// Last item matching <paramref name="predicate"/> or Nothing
+	    /// </summary>
+	    /// <typeparam name="T"></typeparam>
+	    /// <param name="items"></param>
+	    /// <param name="predicate"></param>
+	    /// <returns></returns>
+	    public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+	    {
+	        Contract.Requires(items != null);
+	        Contract.Requires(predicate != null);
 
-		/// <summary>
+	        var result = default(T);
+	        var found = false;
+	        foreach(var element in items) {
+	            if(predicate(element)) {
+	                result = element;
+	                found = true;
+	            }
+	        }
+	        if(found)
+	            return result.ToMaybe();
+	        return Maybe<T>.Nothing;
+	    }
+
+	    /// <summary>
 		/// Returns the value of <paramref name="maybeCollection"/> if exists orlse an empty collection
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
