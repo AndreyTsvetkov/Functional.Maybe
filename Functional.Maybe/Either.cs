@@ -66,19 +66,19 @@ namespace Functional.Either
         /// <summary>
         /// Executes result or error function depending on the Either state.
         /// </summary>
-        public T Match<T>(Func<T> leftFunc, Func<T> rightFunc)
+        public T Match<T>(Func<T> resultFunc, Func<T> errorFunc)
         {
-            if (leftFunc == null)
+            if (resultFunc == null)
             {
-                throw new ArgumentNullException(nameof(leftFunc));
+                throw new ArgumentNullException(nameof(resultFunc));
             }
 
-            if (rightFunc == null)
+            if (errorFunc == null)
             {
-                throw new ArgumentNullException(nameof(rightFunc));
+                throw new ArgumentNullException(nameof(errorFunc));
             }
 
-            return _success ? leftFunc() : rightFunc();
+            return _success ? resultFunc() : errorFunc();
         }
 
         /// <summary>
