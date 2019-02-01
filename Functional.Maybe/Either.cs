@@ -13,20 +13,18 @@ namespace Functional.Either
         private readonly TError _errorValue;
         private readonly bool _success;
 
-        private Either(TResult result, TError error, bool success)
+        private Either(TResult result)
         {
-            _success = success;
+            _success = true;
+            _errorValue = default;
+            _resultValue = result;
+        }
 
-            if (success)
-            {
-                _resultValue = result;
-                _errorValue = default;
-            }
-            else
-            {
-                _errorValue = error;
-                _resultValue = default;
-            }
+        private Either(TError error)
+        {
+            _success = false;
+            _errorValue = error;
+            _resultValue = default;
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Functional.Either
         /// </summary>
         public static Either<TResult, TError> Result(TResult result)
         {
-            return new Either<TResult, TError>(result, default, true);
+            return new Either<TResult, TError>(result);
         }
 
         /// <summary>
@@ -42,7 +40,7 @@ namespace Functional.Either
         /// </summary>
         public static Either<TResult, TError> Error(TError error)
         {
-            return new Either<TResult, TError>(default, error, false);
+            return new Either<TResult, TError>(error);
         }
 
         /// <summary>
