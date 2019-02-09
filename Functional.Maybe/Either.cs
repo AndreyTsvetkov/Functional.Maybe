@@ -11,18 +11,19 @@ namespace Functional.Either
     {
         private readonly TResult _resultValue;
         private readonly TError _errorValue;
-        private readonly bool _success;
+
+        public bool Success { get; }
 
         private Either(TResult result)
         {
-            _success = true;
+            Success = true;
             _errorValue = default;
             _resultValue = result;
         }
 
         private Either(TError error)
         {
-            _success = false;
+            Success = false;
             _errorValue = error;
             _resultValue = default;
         }
@@ -58,7 +59,7 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorFunc));
             }
 
-            return _success ? resultFunc(_resultValue) : errorFunc(_errorValue);
+            return Success ? resultFunc(_resultValue) : errorFunc(_errorValue);
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorFunc));
             }
 
-            return _success ? resultFunc() : errorFunc();
+            return Success ? resultFunc() : errorFunc();
         }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorAction));
             }
 
-            if (_success)
+            if (Success)
             {
                 resultAction(_resultValue);
             }
@@ -119,7 +120,7 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorAction));
             }
 
-            if (_success)
+            if (Success)
             {
                 resultAction();
             }
