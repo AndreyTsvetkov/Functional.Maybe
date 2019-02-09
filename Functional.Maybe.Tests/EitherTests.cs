@@ -159,9 +159,11 @@ namespace Functional.Maybe.Tests
 
             Assert.AreEqual(29, eitherResult.ResultOrDefault());
             Assert.AreEqual(null, eitherResult.ErrorOrDefault());
+            Assert.IsTrue(eitherResult.Success);
 
             Assert.AreEqual("Twenty nine", eitherError.ErrorOrDefault());
-            Assert.AreEqual(0, eitherError.ResultOrDefault());
+            Assert.AreEqual(default, eitherError.ResultOrDefault());
+            Assert.IsFalse(eitherError.Success);
         }
     }
 

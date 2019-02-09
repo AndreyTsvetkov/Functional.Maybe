@@ -11,22 +11,21 @@ namespace Functional.Either
     {
         private readonly TResult _resultValue;
         private readonly TError _errorValue;
-        private readonly bool _success;
 
-        private Either(TResult result, TError error, bool success)
+        public bool Success { get; }
+
+        private Either(TResult result)
         {
-            _success = success;
+            Success = true;
+            _errorValue = default;
+            _resultValue = result;
+        }
 
-            if (success)
-            {
-                _resultValue = result;
-                _errorValue = default;
-            }
-            else
-            {
-                _errorValue = error;
-                _resultValue = default;
-            }
+        private Either(TError error)
+        {
+            Success = false;
+            _errorValue = error;
+            _resultValue = default;
         }
 
         /// <summary>
@@ -34,7 +33,7 @@ namespace Functional.Either
         /// </summary>
         public static Either<TResult, TError> Result(TResult result)
         {
-            return new Either<TResult, TError>(result, default, true);
+            return new Either<TResult, TError>(result);
         }
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace Functional.Either
         /// </summary>
         public static Either<TResult, TError> Error(TError error)
         {
-            return new Either<TResult, TError>(default, error, false);
+            return new Either<TResult, TError>(error);
         }
 
         /// <summary>
@@ -60,25 +59,25 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorFunc));
             }
 
-            return _success ? resultFunc(_resultValue) : errorFunc(_errorValue);
+            return Success ? resultFunc(_resultValue) : errorFunc(_errorValue);
         }
 
         /// <summary>
         /// Executes result or error function depending on the Either state.
         /// </summary>
-        public T Match<T>(Func<T> leftFunc, Func<T> rightFunc)
+        public T Match<T>(Func<T> resultFunc, Func<T> errorFunc)
         {
-            if (leftFunc == null)
+            if (resultFunc == null)
             {
-                throw new ArgumentNullException(nameof(leftFunc));
+                throw new ArgumentNullException(nameof(resultFunc));
             }
 
-            if (rightFunc == null)
+            if (errorFunc == null)
             {
-                throw new ArgumentNullException(nameof(rightFunc));
+                throw new ArgumentNullException(nameof(errorFunc));
             }
 
-            return _success ? leftFunc() : rightFunc();
+            return Success ? resultFunc() : errorFunc();
         }
 
         /// <summary>
@@ -96,7 +95,7 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorAction));
             }
 
-            if (_success)
+            if (Success)
             {
                 resultAction(_resultValue);
             }
@@ -121,7 +120,7 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorAction));
             }
 
-            if (_success)
+            if (Success)
             {
                 resultAction();
             }
