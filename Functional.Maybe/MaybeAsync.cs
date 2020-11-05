@@ -32,5 +32,20 @@ namespace Functional.Maybe
 			var res = await @this;
 			return res.HasValue ? res.Value : orElse();
 		}
+
+		public static async Task<TR> MatchAsync<T, TR>(this Maybe<T> @this,
+			Func<T, Task<TR>> res,
+			Func<Task<TR>> orElse) => @this.HasValue
+			? await res(@this.Value)
+			: await orElse();
+
+		public static async Task DoAsync<T>(this Maybe<T> @this,
+			Func<T, Task> res)
+		{
+			if (@this.HasValue)
+			{
+				await res(@this.Value);
+			}
+		}
 	}
 }
