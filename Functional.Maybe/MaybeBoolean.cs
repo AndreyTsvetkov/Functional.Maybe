@@ -1,9 +1,10 @@
 ﻿using System;
+#pragma warning disable 618
 
 namespace Functional.Maybe
 {
 	/// <summary>
-	/// Ternary logic with Maybe&lt;bool&gt; and combining T and bool to a Maybe value
+	/// Ternary logic with Maybe{bool}; and combining T and bool to a Maybe value
 	/// </summary>
 	public static class MaybeBoolean
 	{

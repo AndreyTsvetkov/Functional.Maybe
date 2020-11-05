@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+#pragma warning disable 618
 
 namespace Functional.Maybe
 {
@@ -233,10 +234,10 @@ namespace Functional.Maybe
 		/// Combines the current value, if exists, with passed IEnumerable
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="this"></param>
-		/// <param name="others"></param>
+		/// <param name="these"></param>
+		/// <param name="other"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> Union<T>(this IEnumerable<T> @these, Maybe<T> other) =>
-			@these.Union(other.ToEnumerable());
+		public static IEnumerable<T> Union<T>(this IEnumerable<T> these, Maybe<T> other) =>
+			these.Union(other.ToEnumerable());
 	}
 }

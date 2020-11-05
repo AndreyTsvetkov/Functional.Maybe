@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 using System.Linq;
 using Newtonsoft.Json;
+#pragma warning disable 618
 
 namespace Functional.Maybe.Json
 {
