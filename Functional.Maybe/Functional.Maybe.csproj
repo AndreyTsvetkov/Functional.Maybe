@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <LangVersion>7.2</LangVersion>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Authors>Andrey Tsvetkov; William Cassarin</Authors>
     <PackageId>Functional.Maybe</PackageId>
     <Company>Functional.Maybe</Company>
