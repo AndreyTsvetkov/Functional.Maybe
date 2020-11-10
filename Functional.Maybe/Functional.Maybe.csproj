@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.0</TargetFramework>
     <LangVersion>7.2</LangVersion>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Authors>Andrey Tsvetkov; William Cassarin</Authors>
     <PackageId>Functional.Maybe</PackageId>
     <Company>Functional.Maybe</Company>
@@ -21,7 +21,6 @@
 			both =&gt; Console.WriteLine("Result is: {0}", both), 
 			@else: () =&gt; Console.WriteLine("Result is Nothing, as one of the inputs was Nothing")
 		);</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseUrl>https://raw.githubusercontent.com/AndreyTsvetkov/Functional.Maybe/master/License.txt</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/AndreyTsvetkov/Functional.Maybe</PackageProjectUrl>
     <PackageIconUrl>http://findicons.com/files/icons/1462/candy_hearts/32/maybe.png</PackageIconUrl>

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+#pragma warning disable 618
 
 namespace Functional.Maybe
 {
@@ -34,7 +34,8 @@ namespace Functional.Maybe
 		/// <summary>
 		/// The value, stored in the monad. Can be accessed only if is really present, otherwise throws
 		/// </summary>
-		/// <exception cref="InvalidOperationException"> is thrown if not value is present</exception>
+		/// <exception cref="InvalidOperationException"> is thrown if not value is present</exception> 
+		[Obsolete("Use Select, SelectMany wherever possible, otherwise suppress error explicitly")]
 		public T Value
 		{
 			get

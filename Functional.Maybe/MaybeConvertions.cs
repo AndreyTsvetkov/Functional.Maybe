@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+#pragma warning disable 618
 
 namespace Functional.Maybe
 {

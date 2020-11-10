@@ -6,7 +6,7 @@
 		<title>Functional.Maybe — Option type for C# with LINQ support and rich fluent syntax for many popular uses</title>
 		<authors>Andrey Tsvetkov; original version by William Casarin</authors>
 		<owners>Andrey Tsvetkov</owners>
-		<license>https://raw.githubusercontent.com/AndreyTsvetkov/Functional.Maybe/master/License.txt</license>
+		<license type="expression">Apache-2.0</license>
 		<projectUrl>https://github.com/AndreyTsvetkov/Functional.Maybe</projectUrl>
 		<iconUrl>http://findicons.com/files/icons/1462/candy_hearts/32/maybe.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>

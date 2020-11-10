@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 // ReSharper disable MemberCanBePrivate.Global
+#pragma warning disable 618
 
 namespace Functional.Maybe
 {

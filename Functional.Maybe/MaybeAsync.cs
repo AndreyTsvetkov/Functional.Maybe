@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+#pragma warning disable 618
 
 namespace Functional.Maybe
 {
 	public static class MaybeAsync
 	{
 		/// <summary>
-		/// Flips Maybe and Task: instead of having Maybe&lt;Task&lt;T&gt;&gt; (as in case of Select) we get Task&lt;Maybe&lt;T&gt;&gt; and have possibility to await on it.
+		/// Flips Maybe and Task: instead of having Maybe{Task{T}} (as in case of Select) we get Task{Maybe{T}} and have possibility to await on it.
 		/// </summary>
 		/// <typeparam name="T">source type</typeparam>
 		/// <typeparam name="TR">async result type</typeparam>
