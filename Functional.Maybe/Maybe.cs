@@ -24,7 +24,7 @@ namespace Functional.Maybe
 	/// var result = (from a in list.FirstMaybe() from b in list.LastMaybe() select a + b).OrElse(-5);
 	/// </example>
 	/// <typeparam name="T"></typeparam>
-	public readonly struct Maybe<T> : IEquatable<Maybe<T>>
+	public readonly struct Maybe<T> : IEquatable<Maybe<T>> where T : notnull
 	{
 		/// <summary>
 		/// Nothing value.
@@ -40,7 +40,7 @@ namespace Functional.Maybe
 			get
 			{
 				if (!HasValue) throw new InvalidOperationException("value is not present");
-				return _value;
+				return _value!;
 			}
 		}
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Functional.Maybe
 		}
 
 		public bool Equals(Maybe<T> other) => 
-			EqualityComparer<T>.Default.Equals(_value, other._value) && HasValue.Equals(other.HasValue);
+			EqualityComparer<T?>.Default.Equals(_value, other._value) && HasValue.Equals(other.HasValue);
 
 		public override bool Equals(object obj)
 		{
@@ -78,7 +78,7 @@ namespace Functional.Maybe
 		{
 			unchecked
 			{
-				return (EqualityComparer<T>.Default.GetHashCode(_value)*397) ^ HasValue.GetHashCode();
+				return (EqualityComparer<T?>.Default.GetHashCode(_value)*397) ^ HasValue.GetHashCode();
 			}
 		}
 
@@ -88,6 +88,6 @@ namespace Functional.Maybe
 		public static bool operator !=(Maybe<T> left, Maybe<T> right) =>
 			!left.Equals(right);
 
-		private readonly T _value;
+		private readonly T? _value;
 	}
 }

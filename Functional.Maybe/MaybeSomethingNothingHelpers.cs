@@ -14,7 +14,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool IsSomething<T>(this Maybe<T> a) => a.HasValue;
+		public static bool IsSomething<T>(this Maybe<T> a) where T : notnull => a.HasValue;
 
 		/// <summary>
 		/// Has no value inside
@@ -23,7 +23,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool IsNothing<T>(this Maybe<T> a) => !a.IsSomething();
+		public static bool IsNothing<T>(this Maybe<T> a) where T : notnull => !a.IsSomething();
 
 		/// <summary>
 		/// Создает "ничто" такого же типа, как исходный объект
@@ -32,7 +32,7 @@ namespace Functional.Maybe
 		/// <param name="_"></param>
 		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Maybe<T> NothingOf<T>(this Maybe<T> _) => default;
+		public static Maybe<T> NothingOf<T>(this Maybe<T> _) where T : notnull => default;
 
 		/// <summary>
 		/// Создает "ничто" такого же типа, как исходный объект
@@ -41,6 +41,6 @@ namespace Functional.Maybe
 		/// <param name="_"></param>
 		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Maybe<T> NothingOf<T>(this T _) => default;
+		public static Maybe<T> NothingOf<T>(this T _) where T : notnull => default;
 	}
 }

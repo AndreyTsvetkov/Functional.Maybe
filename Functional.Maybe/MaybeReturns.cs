@@ -14,7 +14,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="default"></param>
 		/// <returns></returns>
-		public static string ReturnToString<T>(this Maybe<T> a, string @default)
+		public static string ReturnToString<T>(this Maybe<T> a, string @default) where T : notnull
 		{
 			return a.HasValue ? a.Value.ToString() : @default;
 		}
@@ -26,7 +26,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="e"></param>
 		/// <returns></returns>
-		public static T OrElse<T>(this Maybe<T> a, Func<Exception> e)
+		public static T OrElse<T>(this Maybe<T> a, Func<Exception> e)  where T : notnull
 		{
 			if (a.IsNothing())
 			{
@@ -42,7 +42,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="default"></param>
 		/// <returns></returns>
-		public static T OrElse<T>(this Maybe<T> a, Func<T> @default) =>
+		public static T OrElse<T>(this Maybe<T> a, Func<T> @default)  where T : notnull =>
 			a.HasValue ? a.Value : @default();
 
 		/// <summary>
@@ -51,7 +51,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static T OrElseDefault<T>(this Maybe<T> a) =>
+		public static T? OrElseDefault<T>(this Maybe<T> a) where T : notnull =>
 			a.HasValue ? a.Value : default;
 
 		/// <summary>
@@ -61,7 +61,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="default"></param>
 		/// <returns></returns>
-		public static T OrElse<T>(this Maybe<T> a, T @default) =>
+		public static T OrElse<T>(this Maybe<T> a, T @default) where T : notnull =>
 			a.HasValue ? a.Value : @default;
 	}
 }

@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netcoreapp2.2</TargetFramework>
+		<TargetFramework>net5.0</TargetFramework>
 
 		<IsPackable>false</IsPackable>
 
 		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
+    <Nullable>enable</Nullable>
+    <WarningsAsErrors>nullable</WarningsAsErrors>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="nunit" Version="3.11.0" />

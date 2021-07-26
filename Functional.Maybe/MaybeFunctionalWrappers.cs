@@ -24,7 +24,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="tryer"></param>
 		/// <returns></returns>
-		public static Func<T, Maybe<TR>> Wrap<T, TR>(TryGet<T, TR> tryer) => (T arg) =>
+		public static Func<T, Maybe<TR>> Wrap<T, TR>(TryGet<T, TR> tryer)  where TR : notnull => (T arg) =>
 		{
 			TR result;
 			return tryer(arg, out result)
@@ -41,7 +41,7 @@ namespace Functional.Maybe
 		/// <typeparam name="TEx"></typeparam>
 		/// <param name="f"></param>
 		/// <returns></returns>
-		public static Func<TA, Maybe<TR>> Catcher<TA, TR, TEx>(Func<TA, TR> f) where TEx : Exception => (TA arg) =>
+		public static Func<TA, Maybe<TR>> Catcher<TA, TR, TEx>(Func<TA, TR> f) where TEx : Exception where TR : notnull => (TA arg) =>
 		{
 			try
 			{

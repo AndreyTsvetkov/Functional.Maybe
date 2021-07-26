@@ -13,20 +13,23 @@ namespace Functional.Maybe
 		/// <param name="this">maybe to map</param>
 		/// <param name="res">async mapper</param>
 		/// <returns>Task of Maybe of TR</returns>
-		public static async Task<Maybe<TR>> SelectAsync<T, TR>(this Maybe<T> @this, Func<T, Task<TR>> res) => @this.HasValue
-			? (await res(@this.Value)).ToMaybe()
-			: (default);
-		public static async Task<T> OrElseAsync<T>(this Task<Maybe<T>> @this, Func<Task<T>> orElse)
+		public static async Task<Maybe<TR>> SelectAsync<T, TR>(this Maybe<T> @this, Func<T, Task<TR?>> res)
+			where T : notnull where TR : notnull =>
+			@this.HasValue
+				? (await res(@this.Value)).ToMaybe()
+				: (default);
+
+		public static async Task<T> OrElseAsync<T>(this Task<Maybe<T>> @this, Func<Task<T>> orElse) where T : notnull
 		{
 			var res = await @this;
 			return res.HasValue ? res.Value : await orElse();
 		}
-		public static async Task<T> OrElse<T>(this Task<Maybe<T>> @this, T orElse)
+		public static async Task<T> OrElse<T>(this Task<Maybe<T>> @this, T orElse) where T : notnull
 		{
 			var res = await @this;
 			return res.HasValue ? res.Value : orElse;
 		}
-		public static async Task<T> OrElse<T>(this Task<Maybe<T>> @this, Func<T> orElse)
+		public static async Task<T> OrElse<T>(this Task<Maybe<T>> @this, Func<T> orElse) where T : notnull
 		{
 			var res = await @this;
 			return res.HasValue ? res.Value : orElse();
@@ -34,12 +37,12 @@ namespace Functional.Maybe
 
 		public static async Task<TR> MatchAsync<T, TR>(this Maybe<T> @this,
 			Func<T, Task<TR>> res,
-			Func<Task<TR>> orElse) => @this.HasValue
+			Func<Task<TR>> orElse)  where T : notnull => @this.HasValue
 			? await res(@this.Value)
 			: await orElse();
 
 		public static async Task DoAsync<T>(this Maybe<T> @this,
-			Func<T, Task> res)
+			Func<T, Task> res) where T : notnull
 		{
 			if (@this.HasValue)
 			{

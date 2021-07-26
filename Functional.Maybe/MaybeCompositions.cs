@@ -16,7 +16,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Maybe<T> Or<T>(this Maybe<T> a, T b) =>
+		public static Maybe<T> Or<T>(this Maybe<T> a, T b) where T : notnull =>
 			a.IsSomething() ? a : b.ToMaybe();
 
 		/// <summary>
@@ -26,7 +26,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Maybe<T> Or<T>(this Maybe<T> a, Func<Maybe<T>> b) =>
+		public static Maybe<T> Or<T>(this Maybe<T> a, Func<Maybe<T>> b) where T : notnull =>
 			a.IsSomething() ? a : b();
 
 		/// <summary>
@@ -36,7 +36,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Maybe<T> Or<T>(this Maybe<T> a, Maybe<T> b) => a.IsSomething() ? a : b;
+		public static Maybe<T> Or<T>(this Maybe<T> a, Maybe<T> b) where T : notnull => a.IsSomething() ? a : b;
 
 		/// <summary>
 		/// Returns <paramref name="b"/> if <paramref name="a"/> has value, otherwise <see cref="Maybe&lt;T&gt;.Nothing"/>
@@ -46,7 +46,8 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		public static Maybe<T2> Compose<T, T2>(this Maybe<T> a, Maybe<T2> b) =>
+		public static Maybe<T2> Compose<T, T2>(this Maybe<T> a, Maybe<T2> b) 
+      where T : notnull where T2 : notnull=>
 			a.IsNothing() ? Maybe<T2>.Nothing : b;
 
 		/// <summary>
@@ -55,7 +56,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="t"></param>
 		/// <returns></returns>
-		public static Maybe<T> Collapse<T>(this Maybe<Maybe<T>> t) => t; // using implicit cast
+		public static Maybe<T> Collapse<T>(this Maybe<Maybe<T>> t) where T : notnull => t; // using implicit cast
 
 		/// <summary>
 		/// Flattens a recursive Maybe structure into IEnumerable
@@ -73,13 +74,13 @@ namespace Functional.Maybe
 		///	]
 		/// </example>
 		/// <returns></returns>
-		public static IEnumerable<T> Flatten<T>(this Maybe<T> maybe, Func<T, Maybe<T>> parentSelector) =>
+		public static IEnumerable<T> Flatten<T>(this Maybe<T> maybe, Func<T, Maybe<T>> parentSelector) where T : notnull =>
 			maybe.FlattenSelect(parentSelector, x => x);
 
-		private static IEnumerable<TFlatten> FlattenSelect<TMaybe, TFlatten>(this Maybe<TMaybe> maybe, Func<TMaybe, Maybe<TMaybe>> parentSelector, Func<TMaybe, TFlatten> flattenSelector) =>
+		private static IEnumerable<TFlatten> FlattenSelect<TMaybe, TFlatten>(this Maybe<TMaybe> maybe, Func<TMaybe, Maybe<TMaybe>> parentSelector, Func<TMaybe, TFlatten> flattenSelector) where TMaybe : notnull =>
 			maybe.Flatten(parentSelector, new List<TFlatten>(), flattenSelector);
 
-		private static IEnumerable<TFlatten> Flatten<TMaybe, TFlatten>(this Maybe<TMaybe> maybe, Func<TMaybe, Maybe<TMaybe>> parentSelector, List<TFlatten> acc, Func<TMaybe, TFlatten> flattenSelector)
+		private static IEnumerable<TFlatten> Flatten<TMaybe, TFlatten>(this Maybe<TMaybe> maybe, Func<TMaybe, Maybe<TMaybe>> parentSelector, List<TFlatten> acc, Func<TMaybe, TFlatten> flattenSelector) where TMaybe : notnull
 		{
 			while (true)
 			{

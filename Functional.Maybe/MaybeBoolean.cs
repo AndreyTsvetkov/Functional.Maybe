@@ -14,7 +14,7 @@ namespace Functional.Maybe
 		/// <param name="condition"></param>
 		/// <param name="f"></param>
 		/// <returns></returns>
-		public static Maybe<T> Then<T>(this bool condition, Func<T> f) =>
+		public static Maybe<T> Then<T>(this bool condition, Func<T> f) where T : notnull =>
 			condition ? f().ToMaybe() : default;
 
 		/// <summary>
@@ -24,7 +24,7 @@ namespace Functional.Maybe
 		/// <param name="condition"></param>
 		/// <param name="t"></param>
 		/// <returns></returns>
-		public static Maybe<T> Then<T>(this bool condition, T t) =>
+		public static Maybe<T> Then<T>(this bool condition, T t) where T : notnull =>
 			condition ? t.ToMaybe() : default;
 
 		/// <summary>
