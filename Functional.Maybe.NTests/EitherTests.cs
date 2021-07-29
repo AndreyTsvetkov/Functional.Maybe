@@ -23,21 +23,21 @@ namespace Functional.Maybe.Tests
        [Test]
         public void NullCheckingTests()
         {
-            Action<int> nullActionInt = null;
+            Action<int>? nullActionInt = null;
 
             void MockActionInt(int x)
             {
                 var y = 5;
             }
 
-            Action<string> nullActionString = null;
+            Action<string>? nullActionString = null;
 
             void MockActionString(string x)
             {
                 var y = 5;
             }
 
-            Action nullAction = null;
+            Action? nullAction = null;
 
             void MockAction()
             {
@@ -45,16 +45,16 @@ namespace Functional.Maybe.Tests
             }
 
             // ReSharper disable ExpressionIsAlwaysNull
-            AssertExtension.Throws<ArgumentNullException>(() => _eitherResult.Match(nullAction, MockAction));
-            AssertExtension.Throws<ArgumentNullException>(() => _eitherResult.Match(MockAction, nullAction));
+            AssertExtension.Throws<ArgumentNullException>(() => _eitherResult.Match(nullAction!, MockAction));
+            AssertExtension.Throws<ArgumentNullException>(() => _eitherResult.Match(MockAction, nullAction!));
             _eitherResult.Match(MockAction, MockAction);
 
-            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(nullAction, MockAction));
-            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(MockAction, nullAction));
+            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(nullAction!, MockAction));
+            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(MockAction, nullAction!));
             _eitherError.Match(MockAction, MockAction);
 
-            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(nullActionInt, MockActionString));
-            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(MockActionInt, nullActionString));
+            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(nullActionInt!, MockActionString));
+            AssertExtension.Throws<ArgumentNullException>(() => _eitherError.Match(MockActionInt, nullActionString!));
             _eitherResult.Match(MockActionInt, MockActionString);
         }
 

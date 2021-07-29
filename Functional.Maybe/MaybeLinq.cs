@@ -15,7 +15,8 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="fn"></param>
 		/// <returns></returns>
-		public static Maybe<TResult> Select<T, TResult>(this Maybe<T> a, Func<T, TResult> fn)
+		public static Maybe<TResult> Select<T, TResult>(this Maybe<T> a, Func<T, TResult?> fn) 
+      where T : notnull where TResult : notnull
 		{
 			if (a.HasValue)
 			{
@@ -37,7 +38,7 @@ namespace Functional.Maybe
 		/// <param name="fn"></param>
 		/// <param name="else"></param>
 		/// <returns></returns>
-		public static TResult SelectOrElse<T, TResult>(this Maybe<T> a, Func<T, TResult> fn, Func<TResult> @else) => 
+		public static TResult SelectOrElse<T, TResult>(this Maybe<T> a, Func<T, TResult> fn, Func<TResult> @else) where T : notnull => 
 			a.HasValue ? fn(a.Value) : @else();
 		/// <summary>
 		/// If <paramref name="a"/> has value, and it fulfills the <paramref name="predicate"/>, returns <paramref name="a"/>, otherwise returns Nothing
@@ -46,7 +47,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public static Maybe<T> Where<T>(this Maybe<T> a, Func<T, bool> predicate) => 
+		public static Maybe<T> Where<T>(this Maybe<T> a, Func<T, bool> predicate) where T : notnull => 
 			a.HasValue && predicate(a.Value) ? a : default;
 		/// <summary>
 		/// If <paramref name="a"/> has value, applies <paramref name="fn"/> to it and returns, otherwise returns Nothing
@@ -56,7 +57,8 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="fn"></param>
 		/// <returns></returns>
-		public static Maybe<TR> SelectMany<T, TR>(this Maybe<T> a, Func<T, Maybe<TR>> fn) => 
+		public static Maybe<TR> SelectMany<T, TR>(this Maybe<T> a, Func<T, Maybe<TR>> fn) 
+      where T : notnull where TR : notnull => 
 			a.HasValue ? fn(a.Value) : default;
 
 		/// <summary>
@@ -70,7 +72,8 @@ namespace Functional.Maybe
 		/// <param name="fn"></param>
 		/// <param name="composer"></param>
 		/// <returns></returns>
-		public static Maybe<TResult> SelectMany<T, TTempResult, TResult>(this Maybe<T> a, Func<T, Maybe<TTempResult>> fn, Func<T, TTempResult, TResult> composer) => 
+		public static Maybe<TResult> SelectMany<T, TTempResult, TResult>(this Maybe<T> a, Func<T, Maybe<TTempResult>> fn, Func<T, TTempResult, TResult?> composer) 
+			where T : notnull where TResult : notnull where TTempResult : notnull => 
 			a.SelectMany(x => fn(x).SelectMany(y => composer(x, y).ToMaybe()));
 
 		/// <summary>
@@ -81,7 +84,8 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <param name="fn"></param>
 		/// <returns></returns>
-		public static Maybe<TR> SelectMaybe<T, TR>(this Maybe<T> a, Func<T, Maybe<TR>> fn) =>
+		public static Maybe<TR> SelectMaybe<T, TR>(this Maybe<T> a, Func<T, Maybe<TR>> fn) 
+			where T : notnull where TR : notnull =>
 			a.SelectMany(fn);
 
 		/// <summary>
@@ -95,7 +99,8 @@ namespace Functional.Maybe
 		/// <param name="fn"></param>
 		/// <param name="composer"></param>
 		/// <returns></returns>
-		public static Maybe<TResult> SelectMaybe<T, TTempResult, TResult>(this Maybe<T> a, Func<T, Maybe<TTempResult>> fn, Func<T, TTempResult, TResult> composer) =>
+		public static Maybe<TResult> SelectMaybe<T, TTempResult, TResult>(this Maybe<T> a, Func<T, Maybe<TTempResult>> fn, Func<T, TTempResult, TResult?> composer) 
+      where T : notnull where TResult : notnull where TTempResult : notnull =>
 			a.SelectMany(fn, composer);
 	}
 }

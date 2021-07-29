@@ -9,11 +9,11 @@ namespace Functional.Either
     /// </summary>
     public readonly struct Either<TResult, TError>
     {
-        private readonly TResult _resultValue;
-        private readonly TError _errorValue;
+        private readonly TResult? _resultValue;
+        private readonly TError? _errorValue;
         private readonly bool _success;
 
-        private Either(TResult result, TError error, bool success)
+        private Either(TResult? result, TError? error, bool success)
         {
             _success = success;
 
@@ -60,7 +60,7 @@ namespace Functional.Either
                 throw new ArgumentNullException(nameof(errorFunc));
             }
 
-            return _success ? resultFunc(_resultValue) : errorFunc(_errorValue);
+            return _success ? resultFunc(_resultValue!) : errorFunc(_errorValue!);
         }
 
         /// <summary>
@@ -98,11 +98,11 @@ namespace Functional.Either
 
             if (_success)
             {
-                resultAction(_resultValue);
+                resultAction(_resultValue!);
             }
             else
             {
-                errorAction(_errorValue);
+                errorAction(_errorValue!);
             }
         }
 
@@ -131,9 +131,12 @@ namespace Functional.Either
             }
         }
 
-        public TResult ResultOrDefault() => Match(res => res, err => default);
-        public TError ErrorOrDefault() => Match(res => default, err => err);
+        public TResult? ResultOrDefault() => Match<TResult?>(res => res, err => default);
+        public TError? ErrorOrDefault() => Match<TError?>(res => default, err => err);
+        
+        //bug
         public TResult ResultOrDefault(TResult defaultValue) => Match(res => res, err => defaultValue);
+        //bug
         public TError ErrorOrDefault(TError defaultValue) => Match(res => defaultValue, err => err);
 
         public static implicit operator Either<TResult, TError>(TResult result) => Result(result);

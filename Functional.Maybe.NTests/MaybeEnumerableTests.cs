@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace Functional.Maybe.Tests
 		[Test]
 		public void WhereValueExist_Should_remove_Nothing_values()
 		{
-			var sequence = new Maybe<int>[] { 1.ToMaybe(), Maybe<int>.Nothing, 2.ToMaybe() };
+			var sequence = new[] { 1.ToMaybe(), Maybe<int>.Nothing, 2.ToMaybe() };
 			int[] expected = { 1, 2 };
 
 			var actual = sequence.WhereValueExist().ToArray();
@@ -23,6 +24,17 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
+		public void SelectWhereValueExist_Should_work_with_null_returned_from_transformation()
+		{
+			var sequence = new[] { "a".ToMaybe(), "b".ToMaybe(), "c".ToMaybe() };
+			var expected = new string?[] { null, null, null };
+
+			string?[] actual = sequence.SelectWhereValueExist<string, string?>(s => null).ToArray();
+
+			CollectionAssert.AreEqual(expected, actual);
+		}
+
+		[Test]
 		public void Given_ThreeSome_UnionReturnsCollectionOfAll()
 		{
 			var one = 1.ToMaybe();
@@ -32,6 +44,21 @@ namespace Functional.Maybe.Tests
 			var res = one.Union(two, three);
 			Assert.AreEqual(3, res.Count());
 			Assert.IsTrue(res.SequenceEqual(new[] { 1, 2, 3 }));
+		}
+
+		[Test]
+		public void Given_EnumerableOfMaybes_SelectShouldWorkWithNullValues()
+		{
+			var enumerable = new[] { "a".ToMaybe(), "b".ToMaybe(), "c".ToMaybe() };
+
+			var results = enumerable.Select<string, string>(s => null);
+
+			CollectionAssert.AreEqual(new []
+			{
+				Maybe<string>.Nothing,
+				Maybe<string>.Nothing,
+				Maybe<string>.Nothing,
+			}, results);
 		}
 
 		[Test]
@@ -56,7 +83,7 @@ namespace Functional.Maybe.Tests
 			Assert.IsTrue(res.SequenceEqual(new[] { 1, 3, 2 }));
 		}
 
-       [Test]
+      [Test]
 	    public void FirstMaybe_WhenCalledOnEmptyEnumerable_ReturnsNothing()
         {
             var maybe = Enumerable.Empty<object>().FirstMaybe();
@@ -174,4 +201,34 @@ namespace Functional.Maybe.Tests
             Assert.AreSame(expectedItem, maybe.Value);
         }
     }
+
+	class C1
+	{
+		[Test]
+		public void METHOD()
+		{
+			Dictionary<string, string?> d = new Dictionary<string, string>();
+
+			var lookupValue1 = Lookup<string, string, Dictionary<string, string?>>(new Dictionary<string, string?>(), "a");
+			var lookupValue2 = Lookup<string, string, Dictionary<string, string>>(new Dictionary<string, string>(), "a");
+		}
+
+		public LookupValue<TV> Lookup<TK, TV, TD, TDV>(TD d, TK key) 
+			where TK : notnull
+			where TV : notnull
+			where TDV : TV
+			where TD : Dictionary<TK, TDV>
+		{
+			if (d.TryGetValue(key, out var result))
+			{
+				return new LookupValue<TV>(result);
+			}
+			else
+			{
+				return new LookupValue<TV>(default);
+			}
+		}
+
+		public record LookupValue<T>(T? Value) where T : notnull;
+	}
 }

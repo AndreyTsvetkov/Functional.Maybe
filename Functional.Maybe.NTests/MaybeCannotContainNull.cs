@@ -8,7 +8,7 @@ namespace Functional.Maybe.Tests
 	{
 		private class User
 		{
-			public string Name { get; set; }
+			public string? Name { get; set; }
 		}
 
 		[Test]

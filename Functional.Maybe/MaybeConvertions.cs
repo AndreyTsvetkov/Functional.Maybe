@@ -15,7 +15,7 @@ namespace Functional.Maybe
 		/// <typeparam name="TB"></typeparam>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static Maybe<TB> Cast<TA, TB>(this Maybe<TA> a) where TB : class =>
+		public static Maybe<TB> Cast<TA, TB>(this Maybe<TA> a) where TB : class where TA : notnull =>
 			from m in a
 			let t = m as TB
 			where t != null
@@ -28,7 +28,7 @@ namespace Functional.Maybe
 		/// <typeparam name="TR"></typeparam>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static Maybe<TR> MaybeCast<T, TR>(this T a) where TR : T =>
+		public static Maybe<TR> MaybeCast<T, TR>(this T a) where TR : T where T : notnull =>
 			MaybeFunctionalWrappers.Catcher<T, TR, InvalidCastException>(o => (TR)o)(a);
 
 		/// <summary>
@@ -37,7 +37,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> a)
+		public static IEnumerable<T> ToEnumerable<T>(this Maybe<T> a) where T : notnull
 		{
 			if (a.IsSomething())
 				yield return a.Value;
@@ -67,7 +67,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="a"></param>
 		/// <returns></returns>
-		public static Maybe<T> ToMaybe<T>(this T a) =>
+		public static Maybe<T> ToMaybe<T>(this T? a) where T : notnull =>
 			a == null ? default : new Maybe<T>(a);
 	}
 }

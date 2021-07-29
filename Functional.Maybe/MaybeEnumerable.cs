@@ -15,35 +15,36 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items) => 
+		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items) where T : notnull => 
 			FirstMaybe(items, arg => true);
 
-		/// <summary>
-		/// First item matching <paramref name="predicate"/> or Nothing
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="items"></param>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate)
-	    {
-	        foreach(var item in items)
-			{
-	            if (predicate(item))
-				{
-	                return item.ToMaybe();
-	            }
-	        }
-	        return Maybe<T>.Nothing;
-	    }
+    /// <summary>
+    /// First item matching <paramref name="predicate"/> or Nothing
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
+    {
+      foreach (var item in items)
+      {
+        if (predicate(item))
+        {
+          return item.ToMaybe();
+        }
+      }
 
-		/// <summary>
+      return Maybe<T>.Nothing;
+    }
+
+    /// <summary>
 		/// Single item or Nothing
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items) => 
+		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items) where T : notnull => 
 			SingleMaybe(items, arg => true);
 
 		/// <summary>
@@ -53,62 +54,67 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
 		{
-            var result = default(T);
-            var count = 0;
-            foreach(var element in items)
+			var result = default(T);
+			var count = 0;
+			foreach (var element in items)
 			{
-                if (predicate(element))
+				if (predicate(element))
 				{
-                    result = element;
-                    count++;
+					result = element;
+					count++;
 					if (count > 1)
 					{
 						return default;
 					}
-                }
-            }
-            switch(count)
-			{
-                case 0: return default;
-                case 1: return result.ToMaybe();
-            }
-            return default;
-        }
+				}
+			}
 
-		/// <summary>
+			switch (count)
+			{
+				case 0:
+					return default;
+				case 1:
+					return result.ToMaybe();
+			}
+
+			return default;
+		}
+
+    /// <summary>
 		/// Last item or Nothing
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items) => 
+		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items) where T : notnull => 
 			LastMaybe(items, arg => true);
 
-		/// <summary>
-		/// Last item matching <paramref name="predicate"/> or Nothing
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="items"></param>
-		/// <param name="predicate"></param>
-		/// <returns></returns>
-		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate)
+    /// <summary>
+    /// Last item matching <paramref name="predicate"/> or Nothing
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
+    {
+	    var result = default(T);
+	    var found = false;
+	    foreach (var element in items)
 	    {
-	        var result = default(T);
-	        var found = false;
-	        foreach (var element in items)
-			{
-	            if (predicate(element))
-				{
-	                result = element;
-	                found = true;
-	            }
-	        }
-			return found ? result.ToMaybe() : default;
-		}
+		    if (predicate(element))
+		    {
+			    result = element;
+			    found = true;
+		    }
+	    }
 
-		/// <summary>
+	    return found ? result.ToMaybe() : default;
+    }
+
+    /// <summary>
 		/// Returns the value of <paramref name="maybeCollection"/> if exists orlse an empty collection
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
@@ -125,7 +131,8 @@ namespace Functional.Maybe
 		/// <param name="maybes"></param>
 		/// <param name="selector"></param>
 		/// <returns></returns>
-		public static IEnumerable<Maybe<TResult>> Select<T, TResult>(this IEnumerable<Maybe<T>> maybes, Func<T, TResult> selector) =>
+		public static IEnumerable<Maybe<TResult>> Select<T, TResult>(this IEnumerable<Maybe<T>> maybes, Func<T, TResult?> selector) 
+      where T : notnull where TResult : notnull =>
 			maybes.Select(maybe => maybe.Select(selector));
 
 		/// <summary>
@@ -134,7 +141,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="maybes"></param>
 		/// <returns></returns>
-		public static Maybe<IEnumerable<T>> WholeSequenceOfValues<T>(this IEnumerable<Maybe<T>> maybes)
+		public static Maybe<IEnumerable<T>> WholeSequenceOfValues<T>(this IEnumerable<Maybe<T>> maybes) where T : notnull
 		{
 			var forced = maybes.ToArray();
 			// there has got to be a better way to do this
@@ -150,7 +157,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="maybes"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> WhereValueExist<T>(this IEnumerable<Maybe<T>> maybes) => 
+		public static IEnumerable<T> WhereValueExist<T>(this IEnumerable<Maybe<T>> maybes) where T : notnull => 
 			SelectWhereValueExist(maybes, m => m);
 
 		/// <summary>
@@ -161,7 +168,7 @@ namespace Functional.Maybe
 		/// <param name="maybes"></param>
 		/// <param name="fn"></param>
 		/// <returns></returns>
-		public static IEnumerable<TResult> SelectWhereValueExist<T, TResult>(this IEnumerable<Maybe<T>> maybes, Func<T, TResult> fn) =>
+		public static IEnumerable<TResult> SelectWhereValueExist<T, TResult>(this IEnumerable<Maybe<T>> maybes, Func<T, TResult> fn) where T : notnull =>
 			from maybe in maybes
 			where maybe.HasValue
 			select fn(maybe.Value);
@@ -172,7 +179,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="maybes"></param>
 		/// <returns></returns>
-		public static bool AnyNothing<T>(this IEnumerable<Maybe<T>> maybes) =>
+		public static bool AnyNothing<T>(this IEnumerable<Maybe<T>> maybes) where T : notnull =>
 			maybes.Any(m => !m.HasValue);
 
 		/// <summary>
@@ -216,7 +223,7 @@ namespace Functional.Maybe
 		/// <param name="this"></param>
 		/// <param name="others"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> Union<T>(this Maybe<T> @this, params Maybe<T>[] others) =>
+		public static IEnumerable<T> Union<T>(this Maybe<T> @this, params Maybe<T>[] others) where T : notnull =>
 			@this.Union(others.WhereValueExist());
 
 		/// <summary>
@@ -226,7 +233,7 @@ namespace Functional.Maybe
 		/// <param name="this"></param>
 		/// <param name="others"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> Union<T>(this Maybe<T> @this, IEnumerable<T> others) =>
+		public static IEnumerable<T> Union<T>(this Maybe<T> @this, IEnumerable<T> others) where T : notnull =>
 			@this.ToEnumerable().Union(others);
 
 		/// <summary>
@@ -236,7 +243,7 @@ namespace Functional.Maybe
 		/// <param name="this"></param>
 		/// <param name="others"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> Union<T>(this IEnumerable<T> @these, Maybe<T> other) =>
+		public static IEnumerable<T> Union<T>(this IEnumerable<T> @these, Maybe<T> other) where T : notnull =>
 			@these.Union(other.ToEnumerable());
 	}
 }

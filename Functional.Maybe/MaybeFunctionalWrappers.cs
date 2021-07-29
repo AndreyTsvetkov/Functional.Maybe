@@ -21,10 +21,11 @@ namespace Functional.Maybe
 		/// Converts a stardard tryer function (like int.TryParse, Dictionary.TryGetValue etc.) to a function, returning Maybe
 		/// </summary>
 		/// <typeparam name="TR"></typeparam>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="TK"></typeparam>
 		/// <param name="tryer"></param>
 		/// <returns></returns>
-		public static Func<T, Maybe<TR>> Wrap<T, TR>(TryGet<T, TR> tryer) => (T arg) =>
+		public static Func<TK, Maybe<TR>> Wrap<TK, TR>(TryGet<TK, TR> tryer)  
+			where TR : notnull => (TK arg) =>
 		{
 			TR result;
 			return tryer(arg, out result)
@@ -41,7 +42,7 @@ namespace Functional.Maybe
 		/// <typeparam name="TEx"></typeparam>
 		/// <param name="f"></param>
 		/// <returns></returns>
-		public static Func<TA, Maybe<TR>> Catcher<TA, TR, TEx>(Func<TA, TR> f) where TEx : Exception => (TA arg) =>
+		public static Func<TA, Maybe<TR>> Catcher<TA, TR, TEx>(Func<TA, TR> f) where TEx : Exception where TR : notnull => (TA arg) =>
 		{
 			try
 			{
