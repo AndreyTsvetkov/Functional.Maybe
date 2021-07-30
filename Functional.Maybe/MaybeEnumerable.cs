@@ -16,7 +16,17 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <returns></returns>
 		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items) where T : notnull => 
-			FirstMaybe(items, arg => true);
+			FirstMaybeNrt(items);
+
+		//bug
+		/// <summary>
+		/// First item or Nothing
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="items"></param>
+		/// <returns></returns>
+		public static Maybe<T> FirstMaybeNrt<T>(this IEnumerable<T?> items) where T : notnull => 
+			FirstMaybeNrt(items, arg => true);
 
     /// <summary>
     /// First item matching <paramref name="predicate"/> or Nothing
@@ -26,6 +36,19 @@ namespace Functional.Maybe
     /// <param name="predicate"></param>
     /// <returns></returns>
     public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
+    {
+      return FirstMaybeNrt(items, predicate!);
+    }
+
+		//bug start here
+    /// <summary>
+    /// First item matching <paramref name="predicate"/> or Nothing
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static Maybe<T> FirstMaybeNrt<T>(this IEnumerable<T?> items, Func<T?, bool> predicate) where T : notnull
     {
       foreach (var item in items)
       {
@@ -44,8 +67,27 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="items"></param>
 		/// <returns></returns>
+		public static Maybe<T> SingleMaybeNrt<T>(this IEnumerable<T?> items) where T : notnull => 
+			SingleMaybeNrt(items, arg => true);
+
+    /// <summary>
+		/// Single item or Nothing
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="items"></param>
+		/// <returns></returns>
 		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items) where T : notnull => 
-			SingleMaybe(items, arg => true);
+			SingleMaybeNrt(items); //bug pass without suppression?
+
+    /// <summary>
+    /// Single item matching <paramref name="predicate"/> or Nothing
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
+      => SingleMaybeNrt(items, predicate!);
 
 		/// <summary>
 		/// Single item matching <paramref name="predicate"/> or Nothing
@@ -54,7 +96,7 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
+		public static Maybe<T> SingleMaybeNrt<T>(this IEnumerable<T?> items, Func<T?, bool> predicate) where T : notnull
 		{
 			var result = default(T);
 			var count = 0;
@@ -89,7 +131,16 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <returns></returns>
 		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items) where T : notnull => 
-			LastMaybe(items, arg => true);
+			LastMaybeNrt(items);
+
+    /// <summary>
+		/// Last item or Nothing
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="items"></param>
+		/// <returns></returns>
+		public static Maybe<T> LastMaybeNrt<T>(this IEnumerable<T?> items) where T : notnull => 
+			LastMaybeNrt(items, arg => true);
 
     /// <summary>
     /// Last item matching <paramref name="predicate"/> or Nothing
@@ -99,6 +150,16 @@ namespace Functional.Maybe
     /// <param name="predicate"></param>
     /// <returns></returns>
     public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
+      => LastMaybeNrt(items, predicate!);
+
+    /// <summary>
+    /// Last item matching <paramref name="predicate"/> or Nothing
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="items"></param>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    public static Maybe<T> LastMaybeNrt<T>(this IEnumerable<T?> items, Func<T?, bool> predicate) where T : notnull
     {
 	    var result = default(T);
 	    var found = false;
@@ -115,13 +176,22 @@ namespace Functional.Maybe
     }
 
     /// <summary>
+    /// Returns the value of <paramref name="maybeCollection"/> if exists orlse an empty collection
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="maybeCollection"></param>
+    /// <returns></returns>
+    public static IEnumerable<T> FromMaybe<T>(this Maybe<IEnumerable<T>> maybeCollection) =>
+      FromMaybeNrt(maybeCollection!)!;
+    
+    /// <summary>
 		/// Returns the value of <paramref name="maybeCollection"/> if exists orlse an empty collection
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="maybeCollection"></param>
 		/// <returns></returns>
-		public static IEnumerable<T> FromMaybe<T>(this Maybe<IEnumerable<T>> maybeCollection) =>
-			maybeCollection.HasValue ? maybeCollection.Value : Enumerable.Empty<T>();
+		public static IEnumerable<T?> FromMaybeNrt<T>(this Maybe<IEnumerable<T?>> maybeCollection) =>
+			maybeCollection.HasValue ? maybeCollection.Value : Enumerable.Empty<T?>();
 
 		/// <summary>
 		/// For each items that has value, applies <paramref name="selector"/> to it and wraps back as Maybe, for each otherwise remains Nothing
@@ -182,6 +252,7 @@ namespace Functional.Maybe
 		public static bool AnyNothing<T>(this IEnumerable<Maybe<T>> maybes) where T : notnull =>
 			maybes.Any(m => !m.HasValue);
 
+		//bug UT and maybe an Nrt version?
 		/// <summary>
 		/// If ALL calls to <paramref name="pred"/> returned a value, filters out the <paramref name="xs"/> based on that values, otherwise returns Nothing
 		/// </summary>
@@ -203,6 +274,7 @@ namespace Functional.Maybe
 			return new Maybe<IEnumerable<T>>(l);
 		}
 
+		//bug UT and NRT version?
 		/// <summary>
 		/// Filters out <paramref name="xs"/> based on <paramref name="pred"/> resuls; Nothing considered as False
 		/// </summary>
