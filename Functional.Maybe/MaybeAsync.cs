@@ -19,7 +19,8 @@ namespace Functional.Maybe
 				? (await res(@this.Value)).ToMaybe()
 				: (default);
 
-		public static async Task<T> OrElseAsync<T>(this Task<Maybe<T>> @this, Func<Task<T>> orElse) where T : notnull
+		public static async Task<TR> OrElseAsync<T, TR>(this Task<Maybe<T>> @this, Func<Task<TR>> orElse)
+      where T : notnull, TR
 		{
 			var res = await @this;
 			return res.HasValue ? res.Value : await orElse();
