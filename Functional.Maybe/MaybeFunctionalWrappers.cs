@@ -18,7 +18,7 @@ namespace Functional.Maybe
     public delegate bool TryGet<in T, TR>(T key, out TR val);
 
     /// <summary>
-    /// Converts a stardard tryer function (like int.TryParse, Dictionary.TryGetValue etc.) to a function, returning Maybe
+    /// Converts a standard tryer function (like int.TryParse, Dictionary.TryGetValue etc.) to a function, returning Maybe
     /// </summary>
     /// <typeparam name="TR"></typeparam>
     /// <typeparam name="TK"></typeparam>
@@ -29,13 +29,13 @@ namespace Functional.Maybe
 
     //bug comment
     /// <summary>
-    /// Converts a stardard tryer function (like int.TryParse, Dictionary.TryGetValue etc.) to a function, returning Maybe
+    /// Converts a standard tryer function (like int.TryParse, Dictionary.TryGetValue etc.) to a function, returning Maybe
     /// </summary>
     /// <typeparam name="TR"></typeparam>
     /// <typeparam name="TK"></typeparam>
     /// <param name="tryer"></param>
     /// <returns></returns>
-    public static Func<TK, Maybe<TR>> WrapNrt<TK, TR>(MaybeFunctionalWrappers.TryGet<TK, TR?> tryer)  
+    public static Func<TK, Maybe<TR>> WrapNrt<TK, TR>(TryGet<TK, TR?> tryer)  
       where TR : notnull => (TK arg) => 
       tryer(arg, out var result) ? result.ToMaybe() : Maybe<TR>.Nothing;
 

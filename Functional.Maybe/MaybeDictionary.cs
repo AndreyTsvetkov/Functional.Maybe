@@ -14,10 +14,10 @@ namespace Functional.Maybe
 		/// <returns></returns>
  		public static Maybe<T> Lookup<TK, T>(this IDictionary<TK, T> dictionary, TK key) 
 			where T : notnull
-		{
-			var getter = MaybeFunctionalWrappers.Wrap<TK, T>(dictionary.TryGetValue);
-			return getter(key);
-		} //bug check this!
+			where TK : notnull
+    {
+      return LookupNrt(dictionary!, key);
+    }
 
     /// <summary>
     /// Tries to get value from Dictionary safely
@@ -33,7 +33,6 @@ namespace Functional.Maybe
     {
       var getter = MaybeFunctionalWrappers.WrapNrt<TK, T>(dictionary.TryGetValue);
       return getter(key);
-    } //bug check this!
-
+    }
 	}
 }
