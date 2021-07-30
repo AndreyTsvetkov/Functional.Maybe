@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Functional.Maybe.NTests
+namespace Functional.Maybe.Tests
 {
   class MaybeFunctionalWrappersTests
   {

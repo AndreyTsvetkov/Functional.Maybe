@@ -145,23 +145,14 @@ namespace Functional.Maybe
     }
 
     /// <summary>
-    /// Returns the value of <paramref name="maybeCollection"/> if exists orlse an empty collection
+    /// Returns the value of <paramref name="maybeCollection"/> if exists or else an empty collection
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="maybeCollection"></param>
     /// <returns></returns>
     public static IEnumerable<T> FromMaybe<T>(this Maybe<IEnumerable<T>> maybeCollection) =>
-      FromMaybeNrt(maybeCollection!)!;
+      maybeCollection.HasValue ? maybeCollection.Value : Enumerable.Empty<T>();
     
-    /// <summary>
-		/// Returns the value of <paramref name="maybeCollection"/> if exists orlse an empty collection
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="maybeCollection"></param>
-		/// <returns></returns>
-		public static IEnumerable<T?> FromMaybeNrt<T>(this Maybe<IEnumerable<T?>> maybeCollection) =>
-			maybeCollection.HasValue ? maybeCollection.Value : Enumerable.Empty<T?>();
-
 		/// <summary>
 		/// For each items that has value, applies <paramref name="selector"/> to it and wraps back as Maybe, for each otherwise remains Nothing
 		/// </summary>
@@ -221,7 +212,6 @@ namespace Functional.Maybe
 		public static bool AnyNothing<T>(this IEnumerable<Maybe<T>> maybes) where T : notnull =>
 			maybes.Any(m => !m.HasValue);
 
-		//bug UT and maybe an Nrt version?
 		/// <summary>
 		/// If ALL calls to <paramref name="pred"/> returned a value, filters out the <paramref name="xs"/> based on that values, otherwise returns Nothing
 		/// </summary>
@@ -243,9 +233,8 @@ namespace Functional.Maybe
 			return new Maybe<IEnumerable<T>>(l);
 		}
 
-		//bug UT and NRT version?
 		/// <summary>
-		/// Filters out <paramref name="xs"/> based on <paramref name="pred"/> resuls; Nothing considered as False
+		/// Filters out <paramref name="xs"/> based on <paramref name="pred"/> results; Nothing considered as False
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="xs"></param>
@@ -258,7 +247,7 @@ namespace Functional.Maybe
 			select x;
 
 		/// <summary>
-		/// Combines all exisiting values into single IEnumerable
+		/// Combines all existing values into single IEnumerable
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="this"></param>

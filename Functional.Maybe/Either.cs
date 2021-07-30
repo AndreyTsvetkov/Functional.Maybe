@@ -134,9 +134,7 @@ namespace Functional.Either
         public TResult? ResultOrDefault() => Match<TResult?>(res => res, err => default);
         public TError? ErrorOrDefault() => Match<TError?>(res => default, err => err);
         
-        //bug
         public TResult ResultOrDefault(TResult defaultValue) => Match(res => res, err => defaultValue);
-        //bug
         public TError ErrorOrDefault(TError defaultValue) => Match(res => defaultValue, err => err);
 
         public static implicit operator Either<TResult, TError>(TResult result) => Result(result);

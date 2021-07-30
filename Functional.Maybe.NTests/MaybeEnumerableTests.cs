@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
 
@@ -121,7 +122,7 @@ namespace Functional.Maybe.Tests
         Tuple.Create(3)
       };
 
-      var maybe = collection.FirstMaybe(i => i.Item1 == 2);
+      var maybe = collection.FirstMaybe (i => i.Item1 == 2);
 
       Assert.IsTrue(maybe.IsSomething());
       // use AreSame to compare expected value with actual one by reference
@@ -206,6 +207,26 @@ namespace Functional.Maybe.Tests
       Assert.IsTrue(maybe.IsSomething());
       // use AreSame to compare expected value with actual one by reference
       Assert.AreSame(expectedItem, maybe.Value);
+    }
+
+    [Test]
+    public void FromMaybeNrt_WhenXXXXXXXXXXXXXXX() //bug
+    {
+      var maybe = (null as IEnumerable<string?>).ToMaybe();
+
+      IEnumerable<string?> result = maybe.FromMaybe();
+
+      CollectionAssert.IsEmpty(result);
+    }
+
+    [Test]
+    public void FromMaybeNrt_WhenXXXXXXXXXXXXXXX2() //bug
+    {
+      var maybe = new List<string?>().ToMaybe<IEnumerable<string?>>();
+
+      IEnumerable<string?> result = maybe.FromMaybe();
+
+      CollectionAssert.IsEmpty(result);
     }
   }
 }

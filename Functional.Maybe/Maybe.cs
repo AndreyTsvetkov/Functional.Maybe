@@ -67,9 +67,9 @@ namespace Functional.Maybe
 		public bool Equals(Maybe<T> other) => 
 			EqualityComparer<T?>.Default.Equals(_value, other._value) && HasValue.Equals(other.HasValue);
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
-			if (ReferenceEquals(null, obj)) return false;
+			if (obj is null) return false;
 			return obj is Maybe<T> mb && Equals(mb);
 		}
 

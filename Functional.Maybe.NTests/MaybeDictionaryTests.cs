@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Functional.Maybe.NTests
+namespace Functional.Maybe.Tests
 {
-  class MaybeDictionaryNrtTests
+  class MaybeDictionaryTests
   {
     [Test]
     public void METHOD1() //bug

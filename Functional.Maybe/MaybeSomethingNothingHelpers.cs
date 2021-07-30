@@ -41,6 +41,6 @@ namespace Functional.Maybe
 		/// <param name="_"></param>
 		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static Maybe<T> NothingOf<T>(this T _) where T : notnull => default;
+		public static Maybe<T> NothingOf<T>(this T? _) where T : notnull => default;
 	}
 }

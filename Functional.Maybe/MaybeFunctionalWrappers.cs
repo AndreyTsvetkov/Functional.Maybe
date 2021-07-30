@@ -27,7 +27,6 @@ namespace Functional.Maybe
     public static Func<TK, Maybe<TR>> Wrap<TK, TR>(TryGet<TK, TR> tryer)  
 			where TR : notnull => WrapNrt(tryer!);
 
-    //bug comment
     /// <summary>
     /// Converts a standard tryer function (like int.TryParse, Dictionary.TryGetValue etc.) to a function, returning Maybe
     /// </summary>
@@ -39,7 +38,6 @@ namespace Functional.Maybe
       where TR : notnull => (TK arg) => 
       tryer(arg, out var result) ? result.ToMaybe() : Maybe<TR>.Nothing;
 
-    //bug check it out
     /// <summary>
     /// Returns a function which calls <paramref name="f"/>, wrapped inside a try-catch clause with <typeparamref name="TEx"/> catched. 
     /// That new function returns Nothing in the case of the <typeparamref name="TEx"/> thrown inside <paramref name="f"/>, otherwise it returns the f-result as Maybe
@@ -49,11 +47,10 @@ namespace Functional.Maybe
     /// <typeparam name="TEx"></typeparam>
     /// <param name="f"></param>
     /// <returns></returns>
-    //bug is this delegation even needed?
     public static Func<TA, Maybe<TR>> Catcher<TA, TR, TEx>(Func<TA, TR> f)
-      where TEx : Exception where TR : notnull => CatcherNrt<TA, TR, TEx>(f);
+      where TEx : Exception where TR : notnull => 
+      CatcherNrt<TA, TR, TEx>(f);
 
-    //bug check it out
     /// <summary>
     /// Returns a function which calls <paramref name="f"/>, wrapped inside a try-catch clause with <typeparamref name="TEx"/> catched. 
     /// That new function returns Nothing in the case of the <typeparamref name="TEx"/> thrown inside <paramref name="f"/>, otherwise it returns the f-result as Maybe
