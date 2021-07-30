@@ -92,9 +92,9 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void FirstMaybeNrt_WhenCalledOnEmptyEnumerable_ReturnsNothing()
+    public void FirstMaybe_WhenCalledOnEmptyEnumerableOfNrts_ReturnsNothing()
     {
-      var maybe = Enumerable.Empty<object?>().FirstMaybeNrt();
+      var maybe = Enumerable.Empty<object?>().FirstMaybe();
 
       Assert.IsTrue(maybe.IsNothing());
     }
@@ -132,7 +132,7 @@ namespace Functional.Maybe.Tests
     [Test]
     public void SingleMaybe_WhenCalledOnEmptyEnumerable_ReturnsNothing()
     {
-      var maybe = Enumerable.Empty<object>().SingleMaybeNrt();
+      var maybe = Enumerable.Empty<object>().SingleMaybe();
 
       Assert.IsTrue(maybe.IsNothing());
     }

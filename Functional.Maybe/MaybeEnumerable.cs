@@ -15,17 +15,7 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items) where T : notnull => 
-			FirstMaybeNrt(items);
-
-		//bug
-		/// <summary>
-		/// First item or Nothing
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="items"></param>
-		/// <returns></returns>
-		public static Maybe<T> FirstMaybeNrt<T>(this IEnumerable<T?> items) where T : notnull => 
+		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T?> items) where T : notnull => 
 			FirstMaybeNrt(items, arg => true);
 
     /// <summary>
@@ -35,12 +25,9 @@ namespace Functional.Maybe
     /// <param name="items"></param>
     /// <param name="predicate"></param>
     /// <returns></returns>
-    public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
-    {
-      return FirstMaybeNrt(items, predicate!);
-    }
+    public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull => 
+      FirstMaybeNrt(items, predicate!);
 
-		//bug start here
     /// <summary>
     /// First item matching <paramref name="predicate"/> or Nothing
     /// </summary>
@@ -67,17 +54,8 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static Maybe<T> SingleMaybeNrt<T>(this IEnumerable<T?> items) where T : notnull => 
+		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T?> items) where T : notnull => 
 			SingleMaybeNrt(items, arg => true);
-
-    /// <summary>
-		/// Single item or Nothing
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="items"></param>
-		/// <returns></returns>
-		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items) where T : notnull => 
-			SingleMaybeNrt(items); //bug pass without suppression?
 
     /// <summary>
     /// Single item matching <paramref name="predicate"/> or Nothing
@@ -130,17 +108,8 @@ namespace Functional.Maybe
 		/// <typeparam name="T"></typeparam>
 		/// <param name="items"></param>
 		/// <returns></returns>
-		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items) where T : notnull => 
-			LastMaybeNrt(items);
-
-    /// <summary>
-		/// Last item or Nothing
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="items"></param>
-		/// <returns></returns>
-		public static Maybe<T> LastMaybeNrt<T>(this IEnumerable<T?> items) where T : notnull => 
-			LastMaybeNrt(items, arg => true);
+	  public static Maybe<T> LastMaybe<T>(this IEnumerable<T?> items) where T : notnull => 
+  		LastMaybeNrt(items, arg => true);
 
     /// <summary>
     /// Last item matching <paramref name="predicate"/> or Nothing
