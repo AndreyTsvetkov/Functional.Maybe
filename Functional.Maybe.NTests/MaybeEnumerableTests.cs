@@ -210,9 +210,9 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void FromMaybeNrt_WhenXXXXXXXXXXXXXXX() //bug
+    public void FromMaybeNrt_WhenInvokedOnNothingOfEnumerableOfNrts_ReturnsEmptyEnumerableOfNrts()
     {
-      var maybe = (null as IEnumerable<string?>).ToMaybe();
+      var maybe = Maybe<IEnumerable<string?>>.Nothing;
 
       IEnumerable<string?> result = maybe.FromMaybe();
 
@@ -220,7 +220,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void FromMaybeNrt_WhenXXXXXXXXXXXXXXX2() //bug
+    public void FromMaybeNrt_WhenInvokedOnMaybeOfEmptyEnumerableOfNrts_ReturnsEmptyEnumerableOfNrts()
     {
       var maybe = new List<string?>().ToMaybe<IEnumerable<string?>>();
 

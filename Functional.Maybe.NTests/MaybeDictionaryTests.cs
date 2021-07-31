@@ -6,7 +6,7 @@ namespace Functional.Maybe.Tests
   class MaybeDictionaryTests
   {
     [Test]
-    public void METHOD1() //bug
+    public void LookupNrtReturnsNothingWhenThereIsNoValueForKey()
     {
       var dictionary = new Dictionary<string, string?>();
 
@@ -16,7 +16,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void METHOD2() //bug
+    public void LookupNrtReturnsNothingWhenValueForKeyIsNull()
     {
       var dictionary = new Dictionary<string, string?>
       {
@@ -29,7 +29,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void METHOD3() //bug
+    public void LookupNrtReturnsMaybeOfValueForKeyWhenValueExists()
     {
       var dictionary = new Dictionary<string, string?>
       {

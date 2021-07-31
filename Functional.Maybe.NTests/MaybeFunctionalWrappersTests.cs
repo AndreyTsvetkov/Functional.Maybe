@@ -7,7 +7,7 @@ namespace Functional.Maybe.Tests
   class MaybeFunctionalWrappersTests
   {
     [Test]
-    public void METHOD1() //bug
+    public void CatcherNrtFromLambdaReturningNullReturnsNothing()
     {
       var catcher = MaybeFunctionalWrappers
         .CatcherNrt<string, string, Exception>(_ => null);
@@ -18,7 +18,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void METHOD2() //bug
+    public void CatcherNrtFromThrowingExpectedExceptionReturnsNothing()
     {
       var catcher = MaybeFunctionalWrappers
         .CatcherNrt<string, string, Exception>(
@@ -30,7 +30,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void METHOD3() //bug
+    public void CatcherNrtFromThrowingUnexpectedExceptionThrowsException()
     {
       var catcher = MaybeFunctionalWrappers
         .CatcherNrt<string, string, InvalidCastException>(
@@ -40,7 +40,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void METHOD4() //bug
+    public void CatcherNrtWorksWhenInvokedWithNull()
     {
       var catcher = MaybeFunctionalWrappers
         .CatcherNrt<string?, string, InvalidCastException>(
@@ -50,7 +50,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void METHOD5() //bug
+    public void WrapCanProduceFuncWorkingCorrectlyWithNull()
     {
       MaybeFunctionalWrappers.TryGet<string?, int> tryParse = int.TryParse;
       var wrapped = MaybeFunctionalWrappers.Wrap(tryParse);
@@ -61,7 +61,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void METHOD6() //bug
+    public void WrapNrtXXXXXXXx() //bug
     {
       MaybeFunctionalWrappers.TryGet<string, string?> tryGetValue = 
           new Dictionary<string, string?>().TryGetValue;
