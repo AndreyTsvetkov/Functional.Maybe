@@ -50,7 +50,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void WrapCanProduceFuncWorkingCorrectlyWithNull()
+    public void WrapProducesFuncWorkingCorrectlyWithNullInput()
     {
       MaybeFunctionalWrappers.TryGet<string?, int> tryParse = int.TryParse;
       var wrapped = MaybeFunctionalWrappers.Wrap(tryParse);
@@ -61,7 +61,7 @@ namespace Functional.Maybe.Tests
     }
 
     [Test]
-    public void WrapNrtXXXXXXXx() //bug
+    public void WrapNrtProducesFuncWorkingCorrectlyWithNullOutput()
     {
       MaybeFunctionalWrappers.TryGet<string, string?> tryGetValue = 
           new Dictionary<string, string?>().TryGetValue;
