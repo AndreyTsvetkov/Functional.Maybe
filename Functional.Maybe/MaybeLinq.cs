@@ -16,7 +16,7 @@ namespace Functional.Maybe
 		/// <param name="fn"></param>
 		/// <returns></returns>
 		public static Maybe<TResult> Select<T, TResult>(this Maybe<T> a, Func<T, TResult?> fn) 
-      where T : notnull where TResult : notnull
+			where T : notnull where TResult : notnull
 		{
 			if (a.HasValue)
 			{
@@ -58,7 +58,7 @@ namespace Functional.Maybe
 		/// <param name="fn"></param>
 		/// <returns></returns>
 		public static Maybe<TR> SelectMany<T, TR>(this Maybe<T> a, Func<T, Maybe<TR>> fn) 
-      where T : notnull where TR : notnull => 
+			where T : notnull where TR : notnull => 
 			a.HasValue ? fn(a.Value) : default;
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace Functional.Maybe
 		/// <param name="composer"></param>
 		/// <returns></returns>
 		public static Maybe<TResult> SelectMaybe<T, TTempResult, TResult>(this Maybe<T> a, Func<T, Maybe<TTempResult>> fn, Func<T, TTempResult, TResult?> composer) 
-      where T : notnull where TResult : notnull where TTempResult : notnull =>
+			where T : notnull where TResult : notnull where TTempResult : notnull =>
 			a.SelectMany(fn, composer);
 	}
 }

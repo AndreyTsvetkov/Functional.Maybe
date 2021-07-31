@@ -61,12 +61,12 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
-		public async Task OrElseAsyncWithNullAlternativeValueTest()
-    {
+		public async Task OrElseAsyncWithNullAlternativeValueTest() 
+		{
 			var taskOfMaybe = Task.FromResult(Maybe<string>.Nothing);
 		
 			var result = await taskOfMaybe.OrElseAsync(
-        () => Task.FromResult(null as string));
+				() => Task.FromResult(null as string));
 		
 			Assert.IsNull(result);
 		}

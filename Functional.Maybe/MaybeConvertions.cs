@@ -29,7 +29,7 @@ namespace Functional.Maybe
 		/// <param name="a"></param>
 		/// <returns></returns>
 		public static Maybe<TR> MaybeCast<T, TR>(this T a) 
-      where TR : notnull, T =>
+			where TR : notnull, T =>
 			MaybeFunctionalWrappers.Catcher<T?, TR, InvalidCastException>(o => (TR)o!)(a);
 
 		/// <summary>
