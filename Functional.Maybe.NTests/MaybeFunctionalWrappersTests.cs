@@ -7,10 +7,10 @@ namespace Functional.Maybe.Tests
 	class MaybeFunctionalWrappersTests
 	{
 		[Test]
-		public void CatcherNrtFromLambdaReturningNullReturnsNothing()
+		public void CatcherFromLambdaReturningNullReturnsNothing()
 		{
 			var catcher = MaybeFunctionalWrappers
-				.CatcherNrt<string, string, Exception>(_ => null);
+				.Catcher<string, string?, string, Exception>(_ => null);
 
 			var result = catcher("a");
 
@@ -18,10 +18,10 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
-		public void CatcherNrtFromThrowingExpectedExceptionReturnsNothing()
+		public void CatcherFromFuncThrowingExpectedExceptionReturnsNothing()
 		{
 			var catcher = MaybeFunctionalWrappers
-				.CatcherNrt<string, string, Exception>(
+				.Catcher<string, string?, string, Exception>(
 					_ => throw new Exception());
 
 			var result = catcher("a");
@@ -30,20 +30,20 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
-		public void CatcherNrtFromThrowingUnexpectedExceptionThrowsException()
+		public void CatcherFromThrowingUnexpectedExceptionThrowsException()
 		{
 			var catcher = MaybeFunctionalWrappers
-				.CatcherNrt<string, string, InvalidCastException>(
+				.Catcher<string, string?, string, InvalidCastException>(
 					_ => throw new Exception());
 
 			Assert.Throws<Exception>(() => catcher("a"));
 		}
 
 		[Test]
-		public void CatcherNrtWorksWhenInvokedWithNull()
+		public void CatcherWorksWhenInvokedWithNull()
 		{
 			var catcher = MaybeFunctionalWrappers
-				.CatcherNrt<string?, string, InvalidCastException>(
+				.Catcher<string?, string?, string, InvalidCastException>(
 					_ => throw new Exception());
 
 			Assert.Throws<Exception>(() => catcher(null));
@@ -61,11 +61,12 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
-		public void WrapNrtProducesFuncWorkingCorrectlyWithNullOutput()
+		public void WrapProducesFuncWorkingCorrectlyWithNullOutput()
 		{
 			MaybeFunctionalWrappers.TryGet<string, string?> tryGetValue = 
 				new Dictionary<string, string?>().TryGetValue;
-			var wrapped = MaybeFunctionalWrappers.WrapNrt(tryGetValue);
+			var wrapped = MaybeFunctionalWrappers
+				.Wrap<string, string?, string>(tryGetValue);
 
 			var result = wrapped("a");
 

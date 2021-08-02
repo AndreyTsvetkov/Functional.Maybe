@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Functional.Maybe.Tests
 {
@@ -172,6 +173,29 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
+		public void SingleMaybe_WhenSubtypeSpecified_ReturnsDowncastedItem()
+		{
+			var collection = new object[] { "3", 2 };
+			var itemToSearch = "3";
+
+			var maybe = collection.SingleMaybe<object, string>(i => i.Equals(itemToSearch));
+
+			Assert.IsTrue(maybe.IsSomething());
+			Assert.AreEqual(itemToSearch, maybe.Value);
+		}
+
+		[Test]
+		public void SingleMaybe_WhenWrongSubtypeIsSpecified_ReturnsNothing()
+		{
+			var collection = new object[] { "3", 2 };
+			var itemToSearch = "3";
+
+			var maybe = collection.SingleMaybe<object, Regex>(i => i.Equals(itemToSearch));
+
+			Assert.IsTrue(maybe.IsNothing());
+		}
+
+		[Test]
 		public void LastMaybe_WhenCalledOnEmptyEnumerable_ReturnsNothing()
 		{
 			var maybe = Enumerable.Empty<object>().LastMaybe();
@@ -210,7 +234,7 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
-		public void FromMaybeNrt_WhenInvokedOnNothingOfEnumerableOfNrts_ReturnsEmptyEnumerableOfNrts()
+		public void FromMaybe_WhenInvokedOnNothingOfEnumerableOfNrts_ReturnsEmptyEnumerableOfNrts()
 		{
 			var maybe = Maybe<IEnumerable<string?>>.Nothing;
 
@@ -220,7 +244,7 @@ namespace Functional.Maybe.Tests
 		}
 
 		[Test]
-		public void FromMaybeNrt_WhenInvokedOnMaybeOfEmptyEnumerableOfNrts_ReturnsEmptyEnumerableOfNrts()
+		public void FromMaybe_WhenInvokedOnMaybeOfEmptyEnumerableOfNrts_ReturnsEmptyEnumerableOfNrts()
 		{
 			var maybe = new List<string?>().ToMaybe<IEnumerable<string?>>();
 

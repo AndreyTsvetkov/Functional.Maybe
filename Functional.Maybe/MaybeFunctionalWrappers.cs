@@ -25,18 +25,19 @@ namespace Functional.Maybe
 		/// <param name="tryer"></param>
 		/// <returns></returns>
 		public static Func<TK, Maybe<TR>> Wrap<TK, TR>(TryGet<TK, TR> tryer)  
-			where TR : notnull => WrapNrt(tryer!);
+			where TR : notnull => Wrap<TK, TR, TR>(tryer);
 
 		/// <summary>
 		/// Converts a standard tryer function (like int.TryParse, Dictionary.TryGetValue etc.) to a function, returning Maybe
 		/// </summary>
 		/// <typeparam name="TR"></typeparam>
 		/// <typeparam name="TK"></typeparam>
+		/// <typeparam name="TV"></typeparam>
 		/// <param name="tryer"></param>
 		/// <returns></returns>
-		public static Func<TK, Maybe<TR>> WrapNrt<TK, TR>(TryGet<TK, TR?> tryer)  
-			where TR : notnull => (TK arg) => 
-			tryer(arg, out var result) ? result.ToMaybe() : Maybe<TR>.Nothing;
+		public static Func<TK, Maybe<TR>> Wrap<TK, TV, TR>(TryGet<TK, TV> tryer)  
+			where TR : notnull, TV => (TK arg) => 
+			tryer(arg, out var result) ? result.MaybeCast<TV, TR>() : Maybe<TR>.Nothing;
 
 		/// <summary>
 		/// Returns a function which calls <paramref name="f"/>, wrapped inside a try-catch clause with <typeparamref name="TEx"/> catched. 
@@ -48,8 +49,20 @@ namespace Functional.Maybe
 		/// <param name="f"></param>
 		/// <returns></returns>
 		public static Func<TA, Maybe<TR>> Catcher<TA, TR, TEx>(Func<TA, TR> f)
-			where TEx : Exception where TR : notnull => 
-			CatcherNrt<TA, TR, TEx>(f);
+			where TEx : Exception where TR : notnull
+		{
+			return (TA arg) =>
+			{
+				try
+				{
+					return f(arg).ToMaybe();
+				}
+				catch (TEx)
+				{
+					return default;
+				}
+			};
+		}
 
 		/// <summary>
 		/// Returns a function which calls <paramref name="f"/>, wrapped inside a try-catch clause with <typeparamref name="TEx"/> catched. 
@@ -58,14 +71,16 @@ namespace Functional.Maybe
 		/// <typeparam name="TA"></typeparam>
 		/// <typeparam name="TR"></typeparam>
 		/// <typeparam name="TEx"></typeparam>
+		/// <typeparam name="TF">Func return type</typeparam>
 		/// <param name="f"></param>
 		/// <returns></returns>
-		public static Func<TA, Maybe<TR>> CatcherNrt<TA, TR, TEx>(Func<TA, TR?> f) 
-			where TEx : Exception where TR : notnull => (TA arg) =>
+		public static Func<TA, Maybe<TR>> Catcher<TA, TF, TR, TEx>(Func<TA, TF> f) 
+			where TEx : Exception 
+			where TR : notnull, TF => (TA arg) =>
 		{
 			try
 			{
-				return f(arg).ToMaybe();
+				return f(arg).MaybeCast<TF, TR>();
 			}
 			catch (TEx)
 			{

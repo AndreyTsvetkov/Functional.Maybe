@@ -16,7 +16,7 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <returns></returns>
 		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T?> items) where T : notnull => 
-			FirstMaybeNrt(items, arg => true);
+			FirstMaybe<T?, T>(items, arg => true);
 
 		/// <summary>
 		/// First item matching <paramref name="predicate"/> or Nothing
@@ -25,23 +25,26 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull => 
-			FirstMaybeNrt(items, predicate!);
+		public static Maybe<T> FirstMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) 
+			where T : notnull => 
+			FirstMaybe<T, T>(items, predicate);
 
 		/// <summary>
 		/// First item matching <paramref name="predicate"/> or Nothing
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="TE"></typeparam>
 		/// <param name="items"></param>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public static Maybe<T> FirstMaybeNrt<T>(this IEnumerable<T?> items, Func<T?, bool> predicate) where T : notnull
+		public static Maybe<T> FirstMaybe<TE, T>(this IEnumerable<TE> items, Func<TE, bool> predicate) 
+			where T : notnull, TE
 		{
 			foreach (var item in items)
 			{
 				if (predicate(item))
 				{
-					return item.ToMaybe();
+					return item.MaybeCast<TE, T>();
 				}
 			}
 
@@ -55,7 +58,7 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <returns></returns>
 		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T?> items) where T : notnull => 
-			SingleMaybeNrt(items, arg => true);
+			SingleMaybe<T?, T>(items, arg => true);
 
 		/// <summary>
 		/// Single item matching <paramref name="predicate"/> or Nothing
@@ -65,18 +68,20 @@ namespace Functional.Maybe
 		/// <param name="predicate"></param>
 		/// <returns></returns>
 		public static Maybe<T> SingleMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
-			=> SingleMaybeNrt(items, predicate!);
+			=> SingleMaybe<T, T>(items, predicate);
 
 		/// <summary>
 		/// Single item matching <paramref name="predicate"/> or Nothing
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="TE"></typeparam>
 		/// <param name="items"></param>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public static Maybe<T> SingleMaybeNrt<T>(this IEnumerable<T?> items, Func<T?, bool> predicate) where T : notnull
+		public static Maybe<T> SingleMaybe<TE, T>(this IEnumerable<TE> items, Func<TE, bool> predicate) 
+			where T : notnull, TE
 		{
-			var result = default(T);
+			var result = default(TE);
 			var count = 0;
 			foreach (var element in items)
 			{
@@ -96,7 +101,7 @@ namespace Functional.Maybe
 				case 0:
 					return default;
 				case 1:
-					return result.ToMaybe();
+					return result.MaybeCast<TE?, T>();
 			}
 
 			return default;
@@ -109,7 +114,7 @@ namespace Functional.Maybe
 		/// <param name="items"></param>
 		/// <returns></returns>
 		public static Maybe<T> LastMaybe<T>(this IEnumerable<T?> items) where T : notnull => 
-			LastMaybeNrt(items, arg => true);
+			LastMaybe<T?, T>(items, arg => true);
 
 		/// <summary>
 		/// Last item matching <paramref name="predicate"/> or Nothing
@@ -119,18 +124,20 @@ namespace Functional.Maybe
 		/// <param name="predicate"></param>
 		/// <returns></returns>
 		public static Maybe<T> LastMaybe<T>(this IEnumerable<T> items, Func<T, bool> predicate) where T : notnull
-			=> LastMaybeNrt(items, predicate!);
+			=> LastMaybe<T, T>(items, predicate);
 
 		/// <summary>
 		/// Last item matching <paramref name="predicate"/> or Nothing
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="TE"></typeparam>
 		/// <param name="items"></param>
 		/// <param name="predicate"></param>
 		/// <returns></returns>
-		public static Maybe<T> LastMaybeNrt<T>(this IEnumerable<T?> items, Func<T?, bool> predicate) where T : notnull
+		public static Maybe<T> LastMaybe<TE, T>(this IEnumerable<TE> items, Func<TE, bool> predicate)
+			where T : notnull, TE
 		{
-			var result = default(T);
+			var result = default(TE);
 			var found = false;
 			foreach (var element in items)
 			{
@@ -141,7 +148,7 @@ namespace Functional.Maybe
 				}
 			}
 
-			return found ? result.ToMaybe() : default;
+			return found ? result.MaybeCast<TE?, T>() : default;
 		}
 
 		/// <summary>

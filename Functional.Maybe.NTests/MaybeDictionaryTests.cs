@@ -6,37 +6,37 @@ namespace Functional.Maybe.Tests
 	class MaybeDictionaryTests
 	{
 		[Test]
-		public void LookupNrtReturnsNothingWhenThereIsNoValueForKey()
+		public void LookupReturnsNothingWhenThereIsNoNrtValueForKey()
 		{
 			var dictionary = new Dictionary<string, string?>();
 
-			var maybe = dictionary.LookupNrt("a");
+			var maybe = dictionary.Lookup<string, string?, string>("a");
 
 			Assert.AreEqual(Maybe<string>.Nothing, maybe);
 		}
 
 		[Test]
-		public void LookupNrtReturnsNothingWhenValueForKeyIsNull()
+		public void LookupReturnsNothingWhenNrtValueForKeyIsNull()
 		{
 			var dictionary = new Dictionary<string, string?>
 			{
 				["a"] = null
 			};
 
-			var maybe = dictionary.LookupNrt("a");
+			var maybe = dictionary.Lookup<string, string?, string>("a");
 
 			Assert.AreEqual(Maybe<string>.Nothing, maybe);
 		}
 
 		[Test]
-		public void LookupNrtReturnsMaybeOfValueForKeyWhenValueExists()
+		public void LookupReturnsMaybeOfNrtValueForKeyWhenValueExists()
 		{
 			var dictionary = new Dictionary<string, string?>
 			{
 				["a"] = "b"
 			};
 
-			var maybe = dictionary.LookupNrt("a");
+			var maybe = dictionary.Lookup<string, string?, string>("a");
 
 			Assert.AreEqual("b".ToMaybe(), maybe);
 		}
