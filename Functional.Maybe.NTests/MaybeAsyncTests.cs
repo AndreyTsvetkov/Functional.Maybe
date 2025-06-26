@@ -1,19 +1,18 @@
-﻿using NUnit.Framework;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using NUnit.Framework;
 
-namespace Functional.Maybe.Tests
+namespace Functional.Maybe.NTests;
+
+[TestFixture]
+public class MaybeAsyncTests
 {
-	[TestFixture]
-	public class MaybeAsyncTests
+	[Test]
+	public async Task SelectAsyncTest()
 	{
-		[Test]
-		public async Task SelectAsyncTest()
-		{
-			Task<int> Two() => Task.FromResult(2);
+		Task<int> Two() => Task.FromResult(2);
 
-			var onePlusTwo = await 1.ToMaybe().SelectAsync(async one => one + (await Two()));
+		var onePlusTwo = await 1.ToMaybe().SelectAsync(async one => one + (await Two()));
 
-			Assert.AreEqual(3, onePlusTwo.Value);
-		}
+		Assert.AreEqual(3, onePlusTwo.Value);
 	}
 }

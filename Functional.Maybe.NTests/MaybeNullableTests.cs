@@ -1,16 +1,15 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
+using NUnit.Framework;
 
-namespace Functional.Maybe.Tests
+namespace Functional.Maybe.NTests;
+
+[TestFixture]
+public class MaybeNullableTests
 {
-	[TestFixture]
-	public class MaybeNullableTests
+	[Test]
+	public void ToNullableTest()
 	{
-		[Test]
-		public void ToNullableTest()
-		{
-			var nothing = Maybe<Guid>.Nothing;
-			Assert.AreEqual(null, nothing.ToNullable());
-		}
+		var nothing = Maybe<Guid>.Nothing;
+		Assert.AreEqual(null, nothing.ToNullable());
 	}
 }
